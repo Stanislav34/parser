@@ -1,0 +1,40 @@
+# Виртуальное окружение
+venv/
+ENV/
+env/
+.venv/
+
+# Кэш Python
+__pycache__/
+*.py[cod]
+
+# Логи и базы данных
+*.log
+*.sqlite3
+
+# Файлы IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Операционные файлы системы
+.DS_Store
+Thumbs.db
+
+# Файлы, созданные редакторами
+*.swp
+*.swo
+
+# Дистрибутивы Python
+/dist/
+/build/
+/*.egg-info/
+
+# Зависимости
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Локальные конфигурации
+.env
+.secret
