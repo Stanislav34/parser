@@ -3,6 +3,7 @@ import pandas as pd
 from parser_21vek import parse_21vek
 from parser_gemma import parse_gemma
 from parser_catalog_onliner import parse_onliner_catalog
+from parser_oma import parse_oma  # Добавлен oma.by
 
 # Устанавливаем уровень логирования
 logging.basicConfig(level=logging.INFO)
@@ -45,18 +46,27 @@ def main():
     # Парсим данные с Onliner (каталог)
     logger.info("Запускаем парсинг с Onliner...")
     try:
-        products_onliner = parse_onliner_catalog(queries)  # Уже в нужном формате
+        products_onliner = parse_onliner_catalog(queries)
         logger.info(f"Найдено {len(products_onliner)} товаров на Onliner")
     except Exception as e:
         logger.error(f"Ошибка при парсинге Onliner: {e}")
         products_onliner = []
 
+    # Парсим данные с oma.by
+    logger.info("Запускаем парсинг с oma.by...")
+    try:
+        products_oma = parse_oma(queries)
+        logger.info(f"Найдено {len(products_oma)} товаров на oma.by")
+    except Exception as e:
+        logger.error(f"Ошибка при парсинге oma.by: {e}")
+        products_oma = []
+
     # Объединяем все результаты
-    all_products = products_21vek + products_gemma + products_onliner
+    all_products = products_21vek + products_gemma + products_onliner + products_oma
 
     # Сохраняем в Excel
     if all_products:
-        df = pd.DataFrame(all_products)
+        df = pd.DataFrame(all_products, columns=["name", "price", "website"])  # фиксированные колонки
         df.to_excel("products.xlsx", index=False)
         logger.info(f"Данные сохранены в файл products.xlsx. Всего товаров: {len(all_products)}")
     else:
